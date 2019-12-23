@@ -53,7 +53,7 @@ public:
         Month_ext               = (0x16),
         Year_ext                = (0x17),
         Minutes_Alarm_ext       = (0x18),
-        Hours_Alarm_ext         =(0x19),
+        Hours_Alarm_ext         = (0x19),
         Weekday_Alarm_ext       = (0x1A),
         Date_Alarm_ext          = (0x1A),
         Time_Counter_0_ext      = (0x1B),
