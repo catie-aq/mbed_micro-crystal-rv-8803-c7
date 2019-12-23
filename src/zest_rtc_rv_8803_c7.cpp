@@ -19,9 +19,17 @@
 
 namespace sixtron {
 
-Zest_RTC_RV-8803-C7::Zest_RTC_RV-8803-C7()
+Zest_RTC_RV-8803-C7::Zest_RTC_RV-8803-C7(I2C *i2c, I2CAddress i2c_address):
+    _i2c(i2c)
 {
 }
+
+Zesr_RTC_RV-8803-C7::set_seconds(uint8_t seconds)
+{
+    // Data must be converted to BCD format
+    seconds_bcd = ((seconds / 10)) << 4 + (seconds % 10);
+}
+
 
 } // namespace sixtron
 
