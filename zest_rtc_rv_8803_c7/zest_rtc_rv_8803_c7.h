@@ -78,6 +78,26 @@ public:
     set_seconds(uint8_t seconds);
 
 private:
+    /** Set register value
+     *
+     * \param registerAddress register address
+     * \param value, value to write
+     *
+     * \returns 0 on success,
+     *          no-0 on failure
+     */
+    int i2c_set_register(RegisterAddress registerAddress, char value);
+
+    /** Get register value
+     *
+     * \param registerAddress register address
+     * \param value pointer to store read value to
+     *
+     * \returns 0 on success,
+     *          no-0 on failure
+     */
+    int i2c_read_register(RegisterAddress registerAddress, char *value);
+
     I2C *_i2c;
     char _i2c_address = 0x64;
 };
