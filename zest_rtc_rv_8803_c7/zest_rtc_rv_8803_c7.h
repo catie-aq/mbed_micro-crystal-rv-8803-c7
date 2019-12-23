@@ -77,6 +77,12 @@ public:
     */
     set_seconds(uint8_t seconds);
 
+    /** Store the count of minutes
+    *
+    @param minutes number of minutes (from 0 to 59)
+    */
+    set_minutes(uint8_t minutes);
+
 private:
     /** Set register value
      *

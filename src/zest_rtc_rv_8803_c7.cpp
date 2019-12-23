@@ -53,7 +53,5 @@ int BNO055::i2c_read_register(RegisterAddress registerAddress, char *value)
     return 0;
 }
 
-
-
 } // namespace sixtron
 
