@@ -14,12 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef CATIE_SIXTRON_ZESTRTCRV8803C7_H_
-#define CATIE_SIXTRON_ZESTRTCRV8803C7_H_
+#ifndef CATIE_SIXTRON_MICROCRYSTALRV8803C7_H_
+#define CATIE_SIXTRON_MICROCRYSTALRV8803C7_H_
+
+#include "mbed.h"
 
 namespace sixtron {
 
-class Zest_RTC_RV-8803-C7
+class RV_8803_C7
 {
 public:
 
@@ -67,7 +69,7 @@ public:
         Event_Control           = (0x2D)
     };
 
-    Zest_RTC_RV-8803-C7(I2C *i2c, I2CAddress i2c_address);
+    RV_8803_C7(I2C *i2c);
 
     // TODO : On reading procedure, if seconds == 59, a 2nd read must be done to confirm that data has been correctly retrieved
 
@@ -75,13 +77,13 @@ public:
     *
     @param seconds number of seconds (from 0 to 59)
     */
-    set_seconds(uint8_t seconds);
+    void set_seconds(uint8_t seconds);
 
     /** Store the count of minutes
     *
     @param minutes number of minutes (from 0 to 59)
     */
-    set_minutes(uint8_t minutes);
+    void set_minutes(uint8_t minutes);
 
 private:
     /** Set register value
@@ -110,5 +112,5 @@ private:
 
 } // namespace sixtron
 
-#endif // CATIE_SIXTRON_ZESTRTCRV8803C7_H_
+#endif // CATIE_SIXTRON_MICROCRYSTALRV8803C7_H_
 
