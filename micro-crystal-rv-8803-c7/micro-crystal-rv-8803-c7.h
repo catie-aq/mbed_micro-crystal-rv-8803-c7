@@ -21,71 +21,64 @@
 
 namespace sixtron {
 
-class RV_8803_C7
-{
+class RV_8803_C7 {
 public:
-
-    enum class RegisterAddress : char {
-        /* Basic time and calendar register */
-        Seconds                 = (0x00),
-        Minutes                 = (0x01),
-        Hours                   = (0x02),
-        Weekday                 = (0x03),
-        Date                    = (0x04),
-        Month                   = (0x05),
-        Year                    = (0x06),
-        RAM                     = (0x07),
-        Minutes_Alarm           = (0x08),
-        Hours_Alarm             = (0x09),
-        Weekday_Alarm           = (0x0A),
-        Date_Alarm              = (0x0A),
-        Time_Counter_0          = (0x0B),
-        Time_Counter_1          = (0x0C),
-        Extension               = (0x0D),
-        Flag                    = (0x0E),
-        Control                 = (0x0F),
-
-        /* Extension register */
-        Seconds_100th           = (0x10),
-        Seconds_ext             = (0x11),
-        Minutes_ext             = (0x12),
-        Hours_ext               = (0x13),
-        Weekday_ext             = (0x14),
-        Date_ext                = (0x15),
-        Month_ext               = (0x16),
-        Year_ext                = (0x17),
-        Minutes_Alarm_ext       = (0x18),
-        Hours_Alarm_ext         = (0x19),
-        Weekday_Alarm_ext       = (0x1A),
-        Date_Alarm_ext          = (0x1A),
-        Time_Counter_0_ext      = (0x1B),
-        Time_Counter_1_ext      = (0x1C),
-        Extension_ext           = (0x1D),
-        Flag_ext                = (0x1E),
-        Control_ext             = (0x1F),
-        Seconds_100th_CP        = (0x20),
-        Seconds_CP              = (0x21),
-        Offset                  = (0x2C),
-        Event_Control           = (0x2D)
-    };
-
     RV_8803_C7(I2C *i2c);
 
-    // TODO : On reading procedure, if seconds == 59, a 2nd read must be done to confirm that data has been correctly retrieved
+    /** Store the time
+     *
+     @param time Epoch time
+     */
+    void set_time(time_t time);
 
-    /** Store the count of seconds
-    *
-    @param seconds number of seconds (from 0 to 59)
-    */
-    void set_seconds(uint8_t seconds);
-
-    /** Store the count of minutes
-    *
-    @param minutes number of minutes (from 0 to 59)
-    */
-    void set_minutes(uint8_t minutes);
+    /** Get the time since Epoch */
+    time_t get_time();
 
 private:
+    enum class RegisterAddress : uint8_t {
+        /* Basic time and calendar register */
+        Seconds             = (0x00),
+        Minutes             = (0x01),
+        Hours               = (0x02),
+        Weekday             = (0x03),
+        Date                = (0x04),
+        Month               = (0x05),
+        Year                = (0x06),
+        RAM                 = (0x07),
+        Minutes_Alarm       = (0x08),
+        Hours_Alarm         = (0x09),
+        Weekday_Alarm       = (0x0A),
+        Date_Alarm          = (0x0A),
+        Time_Counter_0      = (0x0B),
+        Time_Counter_1      = (0x0C),
+        Extension           = (0x0D),
+        Flag                = (0x0E),
+        Control             = (0x0F),
+
+        /* Extension register */
+        Seconds_100th       = (0x10),
+        Seconds_ext         = (0x11),
+        Minutes_ext         = (0x12),
+        Hours_ext           = (0x13),
+        Weekday_ext         = (0x14),
+        Date_ext            = (0x15),
+        Month_ext           = (0x16),
+        Year_ext            = (0x17),
+        Minutes_Alarm_ext   = (0x18),
+        Hours_Alarm_ext     = (0x19),
+        Weekday_Alarm_ext   = (0x1A),
+        Date_Alarm_ext      = (0x1A),
+        Time_Counter_0_ext  = (0x1B),
+        Time_Counter_1_ext  = (0x1C),
+        Extension_ext       = (0x1D),
+        Flag_ext            = (0x1E),
+        Control_ext         = (0x1F),
+        Seconds_100th_CP    = (0x20),
+        Seconds_CP          = (0x21),
+        Offset              = (0x2C),
+        Event_Control       = (0x2D)
+    };
+
     /** Set register value
      *
      * \param registerAddress register address
@@ -94,7 +87,8 @@ private:
      * \returns 0 on success,
      *          no-0 on failure
      */
-    int i2c_set_register(RegisterAddress registerAddress, char value);
+    int i2c_set_register(RegisterAddress register_address, const char *data,
+            int length);
 
     /** Get register value
      *
@@ -104,10 +98,17 @@ private:
      * \returns 0 on success,
      *          no-0 on failure
      */
-    int i2c_read_register(RegisterAddress registerAddress, char *value);
+    int i2c_read_register(RegisterAddress register_address, char *value,
+            int length);
+
+    /** Convert a binary byte to BCD format */
+    uint8_t bin2bcd(uint8_t x);
+
+    /** Convert BCD data to binary byte */
+    uint8_t bcd2bin(uint8_t x);
 
     I2C *_i2c;
-    char _i2c_address = 0x64;
+    char _i2c_address = 0x32;
 };
 
 } // namespace sixtron
