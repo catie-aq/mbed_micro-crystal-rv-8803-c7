@@ -82,7 +82,8 @@ private:
     /** Set register value
      *
      * \param registerAddress register address
-     * \param value, value to write
+     * \param data pointer to a data array to write
+     * \param length length to write
      *
      * \returns 0 on success,
      *          no-0 on failure
@@ -94,6 +95,7 @@ private:
      *
      * \param registerAddress register address
      * \param value pointer to store read value to
+     * \param length length to read
      *
      * \returns 0 on success,
      *          no-0 on failure
