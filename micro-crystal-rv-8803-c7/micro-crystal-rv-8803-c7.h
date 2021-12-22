@@ -34,6 +34,13 @@ public:
     /** Get the time since Epoch */
     time_t get_time();
 
+    /** Enable periodic time update interrupt
+     *
+     * \returns 0 on success,
+     *          no-0 on failure
+     */
+    int enable_periodic_time_interrupt();
+
 private:
     enum class RegisterAddress : uint8_t {
         /* Basic time and calendar register */
