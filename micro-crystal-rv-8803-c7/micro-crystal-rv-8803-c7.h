@@ -23,6 +23,11 @@ namespace sixtron {
 
 class RV_8803_C7 {
 public:
+    enum class PeriodicInterval : uint8_t {
+        Seconds = 0x00,
+        Minutes = 0x01
+    };
+public:
     RV_8803_C7(I2C *i2c);
 
     /** Store the time
@@ -39,7 +44,7 @@ public:
      * \returns 0 on success,
      *          no-0 on failure
      */
-    int enable_periodic_time_interrupt();
+    int enable_periodic_time_interrupt(PeriodicInterval interval);
 
 private:
     enum class RegisterAddress : uint8_t {

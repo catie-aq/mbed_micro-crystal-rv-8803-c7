@@ -88,13 +88,19 @@ time_t RV_8803_C7::get_time()
     return mktime(&tmp);
 }
 
-int RV_8803_C7::enable_periodic_time_interrupt()
+int RV_8803_C7::enable_periodic_time_interrupt(PeriodicInterval interval)
 {
     char buffer[2] = {0};
     char data = 0x01;
     data = (data << 5);
     
-    buffer[0] = static_cast<char>(RegisterAddress::Control_ext);
+    buffer[0] = static_cast<char>(RegisterAddress::Control);
+    memcpy(buffer + 1, &data, 1);
+    if (_i2c->write(static_cast<int>(_i2c_address) << 1, buffer, 2) != 0) {
+        return -1;
+    }
+    data = (uint8_t(interval) << 5);
+    buffer[0] = static_cast<char>(RegisterAddress::Extension);
     memcpy(buffer + 1, &data, 1);
     if (_i2c->write(static_cast<int>(_i2c_address) << 1, buffer, 2) != 0) {
         return -1;
