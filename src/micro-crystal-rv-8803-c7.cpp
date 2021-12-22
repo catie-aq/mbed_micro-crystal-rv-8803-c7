@@ -90,9 +90,18 @@ time_t RV_8803_C7::get_time()
 
 int RV_8803_C7::enable_periodic_time_interrupt()
 {
-    char data;
-    data = 0x01 << 5;
-    i2c_set_register(RegisterAddress::Control_ext, &data, 1);
+    char buffer[2] = {0};
+    char data = 0x01;
+    data = (data << 5);
+    
+    buffer[0] = static_cast<char>(RegisterAddress::Control_ext);
+    memcpy(buffer + 1, &data, 1);
+    if (_i2c->write(static_cast<int>(_i2c_address) << 1, buffer, 2) != 0) {
+        return -1;
+    }
+    return 0;
+
+    //i2c_set_register(RegisterAddress::Control_ext, &data, 1);
 }
 
 int RV_8803_C7::i2c_set_register(RegisterAddress register_address, const char *data, int length)
